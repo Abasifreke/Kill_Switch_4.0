@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ZoomControls;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,7 +39,6 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
     }
 
-
     public void onSearch(View view)
     {
         EditText location_tf = (EditText)findViewById(R.id.TFaddress);
@@ -63,17 +63,6 @@ public class MapsActivity extends FragmentActivity {
         }
     }
 
-    public void onZoom(View view)
-    {
-        if(view.getId() == R.id.Bzoomin)
-        {
-            mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        }
-        if(view.getId() == R.id.Bzoomout)
-        {
-            mMap.animateCamera(CameraUpdateFactory.zoomOut());
-        }
-    }
 
     public void changeType(View view)
     {

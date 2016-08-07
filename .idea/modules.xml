@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DemoMaps.iml" filepath="$PROJECT_DIR$/DemoMaps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Kill_Switch_4.0.iml" filepath="$PROJECT_DIR$/Kill_Switch_4.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
