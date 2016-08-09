@@ -5,14 +5,11 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -24,13 +21,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+import java.util.TreeMap;
 
 public class MapsActivity extends FragmentActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
@@ -53,9 +50,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("I am here!");
+                .title(String.format(Locale.CANADA,
+                                    "%s Latitude: %.2f, Longitude: %.2f",
+                                    "Me:",
+                                    currentLatitude,
+                                    currentLongitude));
         mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
     }
 
     @Override
@@ -158,6 +160,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         }
         else {
             handleNewLocation(location);
+            findNearbyPlayers();
         };
     }
 
@@ -226,5 +229,36 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         );
         AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);
         mGoogleApiClient.disconnect();
+    }
+
+    private void findNearbyPlayers() {
+
+        Database db = new Database(this.getApplicationContext());
+        TreeMap players = db.getPlayerLocations();
+
+        if (players != null) {
+
+            Object users[] = players.keySet().toArray();
+
+            for (int i = 0; i < users.length; i++) {
+
+                String coords = (String) players.get(users[i]);
+
+                double lat = Double.parseDouble(coords.split(",")[0]);
+                double log = Double.parseDouble(coords.split(",")[1]);
+
+                MarkerOptions options = new MarkerOptions()
+                        .position(new LatLng(lat, log))
+                        .title(String.format(Locale.CANADA,
+                                            "%s: Latitude: %.2f, Longitude: %.2f",
+                                            users[i],
+                                            lat,
+                                            log));
+
+                mMap.addMarker(options);
+            }
+
+        }
+
     }
 }
