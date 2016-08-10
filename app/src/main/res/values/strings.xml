@@ -7,5 +7,6 @@
     <string name= "SearchButton"> Search </string>
     <string name= "MapTypeButton"> MapType </string>
     <string name="hint"> Search for a location...</string>
+    <string name= "ScanButton">Scan</string>
 
 </resources>
